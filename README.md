@@ -1,2 +1,2 @@
-# hitw-economy-plugin
-A plugin to manage the HitW currency system
+# hitw-plugin
+The Hole in the Wall point system plugin
