@@ -6,15 +6,22 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.io.File
 import java.lang.Exception
+import java.nio.file.Files
 import java.util.*
 
 object GameFileUtils {
 
-    fun loadScores(uuid : UUID) : MutableList<Score?> {
-        var scores : MutableList<Score?> = MutableList(0) { null }
+    fun loadScores(uuid : UUID, calendar: Calendar) : MutableList<Score?> {
         val stringUUID = uuid.toString()
-        val f = File("./plugins/HitW/scores/$stringUUID.json")
-        if (!f.exists()) f.createNewFile()
+        var scores : MutableList<Score?> = MutableList(0) { null }
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+        val month = calendar.get(Calendar.MONTH)
+
+        val f = File("./plugins/HitW/playerdata/$day-$month/$stringUUID.json")
+        if (!f.exists()) {
+            Files.createDirectories(f.parentFile.toPath())
+            f.createNewFile()
+        }
         val text = f.readText()
         if (text.isNotBlank()) try {
             scores = Json.decodeFromString<MutableList<Score?>>(f.readText())
@@ -24,18 +31,25 @@ object GameFileUtils {
         return scores
     }
 
-    private fun saveScores(uuid : UUID, scores : MutableList<Score?>) {
+    private fun saveScores(uuid : UUID, scores : MutableList<Score?>, calendar : Calendar) {
         val stringUUID = uuid.toString()
-        val f = File("./plugins/HitW/scores/$stringUUID.json")
-        if (!f.exists()) f.createNewFile()
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+        val month = calendar.get(Calendar.MONTH)
+
+        val f = File("./plugins/HitW/playerdata/$day-$month/$stringUUID.json")
+        if (!f.exists()) {
+            Files.createDirectories(f.parentFile.toPath())
+            f.createNewFile()
+        }
         val scoresText = Json.encodeToString(scores)
         f.writeText(scoresText)
     }
 
     fun appendScore(uuid : UUID, score : Score) {
-        val currentScores = loadScores(uuid)
+        val calendar = Calendar.getInstance(TimeZone.getTimeZone("EST"))
+        val currentScores = loadScores(uuid, calendar)
         currentScores.add(score)
-        saveScores(uuid, currentScores)
+        saveScores(uuid, currentScores, calendar)
     }
 
 }
