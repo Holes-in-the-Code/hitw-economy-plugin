@@ -14,7 +14,9 @@ import java.util.*
 
 object GameFileUtils {
 
-    fun loadScores(ePlayer: EPlayer, calendar: Calendar) : MutableList<Score?> {
+    fun loadScores(ePlayer: EPlayer,
+                   calendar: Calendar = Calendar.getInstance(TimeZone.getTimeZone("EST"))
+    ) : MutableList<Score?> {
         var scores : MutableList<Score?> = MutableList(0) { null }
 
         var f = ePlayer.dailyDataFile
