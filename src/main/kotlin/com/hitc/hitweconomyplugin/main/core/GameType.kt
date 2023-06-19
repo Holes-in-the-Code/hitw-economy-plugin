@@ -3,8 +3,8 @@ package com.hitc.hitweconomyplugin.main.core
 enum class GameType(var text: String) {
     QUALIFIERS("Qualification"),
     FINALS("Finals"),
-    LOBBY("Wide Qualification"),
-    WIDE_QUALIFIERS("Lobby Wall"),
+    LOBBY("Lobby Wall"),
+    WIDE_QUALIFIERS("Wide Qualification"),
     WIDE_FINALS("Wide Finals");
 
     companion object {

@@ -5,5 +5,6 @@ import java.util.UUID
 
 @Serializable
 data class Score(
-    var score: Pair<GameType,Int>
+    var gameType : GameType,
+    var score : Int
 )
