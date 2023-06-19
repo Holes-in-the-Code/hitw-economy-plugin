@@ -1,6 +1,7 @@
 package com.hitc.hitweconomyplugin.main.utils
 
 import com.hitc.hitweconomyplugin.main.core.EPlayer
+import com.hitc.hitweconomyplugin.main.core.PlayerData
 import com.hitc.hitweconomyplugin.main.core.Score
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
@@ -31,13 +32,37 @@ object GameFileUtils {
         return scores
     }
 
+    fun loadPlayerData(ePlayer: EPlayer) : PlayerData {
+        val f = ePlayer.dataFile
+        val text = f.readText()
+        var playerData = PlayerData(0,0)
+        if (text.isNotBlank()) try {
+            playerData = Json.decodeFromString<PlayerData>(text)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return playerData
+    }
+
+    fun savePlayerData(ePlayer: EPlayer, playerData: PlayerData) {
+        val f = ePlayer.dataFile
+        val playerDataText = Json.encodeToString(playerData)
+        f.writeText(playerDataText)
+    }
+
+    fun addCredits(ePlayer: EPlayer, credits : Int) {
+        val playerData = loadPlayerData(ePlayer)
+        playerData.credits += credits
+        playerData.creditsEarned += credits
+        savePlayerData(ePlayer, playerData)
+    }
+
     private fun saveScores(ePlayer: EPlayer, scores : MutableList<Score?>, calendar: Calendar) {
         var f = ePlayer.dailyDataFile
         if (calendar.get(Calendar.DAY_OF_YEAR) != f.second.get(Calendar.DAY_OF_YEAR)) {
             f = getDailyDataFile(ePlayer.player.player)
             ePlayer.dailyDataFile = f
         }
-
         val scoresText = Json.encodeToString(scores)
         f.first.writeText(scoresText)
     }

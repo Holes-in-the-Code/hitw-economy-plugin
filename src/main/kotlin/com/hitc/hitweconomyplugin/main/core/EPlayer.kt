@@ -3,7 +3,6 @@ package com.hitc.hitweconomyplugin.main.core
 import com.hitc.hitweconomyplugin.main.Main
 import com.hitc.hitweconomyplugin.main.utils.GameFileUtils
 import com.hitc.hitweconomyplugin.main.utils.GeneralUtils
-import core.Board
 import core.HPlayer
 import org.bukkit.entity.Player
 import java.io.File
