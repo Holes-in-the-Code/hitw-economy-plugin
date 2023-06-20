@@ -29,10 +29,11 @@ class Main: JavaPlugin(), Listener {
     @EventHandler
     fun onPlayerJoin(event: PlayerJoinEvent) {
         val player = HPlayer.getHPlayer(event.player) ?: return
-        val dailyFile = GameFileUtils.getDailyDataFile(event.player)
-        val dataFile = GameFileUtils.getDataFile(event.player)
+        val playerData = GameFileUtils.initPlayerData(event.player)
+        val scores = GameFileUtils.initPlayerScores(event.player)
 
-        val ePlayer = EPlayer(player, dailyFile, dataFile)
+
+        val ePlayer = EPlayer(player, scores, playerData)
         ePlayers.add(ePlayer)
     }
 
@@ -56,7 +57,7 @@ class Main: JavaPlugin(), Listener {
 
         CoroutineScope(Dispatchers.IO).launch {
             val credits = CreditsUtils.addCredits(gameType, score.score, ePlayer)
-            GameFileUtils.appendScore(ePlayer, score)
+            ePlayer.dailyScores.addScore(score, ePlayer)
             withContext(Dispatchers.Default) {
                 player.player.sendMessage("§dYou earned §a$credits §dcredits!")
             }

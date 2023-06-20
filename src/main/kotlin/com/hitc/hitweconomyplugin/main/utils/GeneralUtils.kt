@@ -5,6 +5,7 @@ import core.HPlayer
 import main.Main
 import org.bukkit.entity.Player
 import utils.RankManager
+import java.util.*
 
 object GeneralUtils {
 
@@ -61,6 +62,11 @@ object GeneralUtils {
         hPlayer.restorePlayerData()
         Main.hPlayers.add(hPlayer)
         return hPlayer
+    }
+
+    fun checkDate(date : Calendar) : Boolean {
+        val currentDate = Calendar.getInstance(TimeZone.getTimeZone("EST"))
+        return date.get(Calendar.DAY_OF_YEAR) == currentDate.get(Calendar.DAY_OF_YEAR)
     }
 
 }

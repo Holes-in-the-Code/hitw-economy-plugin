@@ -4,4 +4,4 @@ version: 1.0
 api-version: 1.13
 author: Holes in the Code
 description: Hole in the Wall point system plugin
-depend: [HitW]
+depend: [HitW, KVM]
