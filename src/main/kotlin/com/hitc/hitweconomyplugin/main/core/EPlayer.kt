@@ -73,11 +73,7 @@ class EPlayer(
         }
 
         fun removePlayer(p : Player) {
-            for (ePlayer in Main.ePlayers) {
-                if (ePlayer.player.player == p) {
-                    Main.ePlayers.remove(ePlayer)
-                }
-            }
+            Main.ePlayers.removeIf { it.player == p }
         }
 
     }
