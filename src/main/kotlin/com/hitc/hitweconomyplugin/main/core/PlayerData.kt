@@ -10,8 +10,8 @@ import java.io.File
 
 @Serializable
 class PlayerData(
-    private var credits: Int,
-    private var creditsEarned: Int,
+    private var credits: Int = 0,
+    private var creditsEarned: Int = 0,
     @Transient var file : File? = null
 ) {
 

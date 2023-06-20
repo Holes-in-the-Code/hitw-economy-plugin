@@ -13,14 +13,14 @@ import kotlin.Exception
 object GameFileUtils {
 
     fun loadScores(f: File) : Scores {
-        var scores = Scores(emptyList<Score>().toMutableList(), f)
+        var scores = Scores(file = f)
 
         val text = f.readText()
         if (text.isNotBlank()) {
             val dataJson = Json.decodeFromString<DataFile>(text)
             // TODO make a system that maps dataVersions to dataFixers
             if (dataJson.dataVersion == Scores.DATA_VERSION) {
-                scores = Json.decodeFromJsonElement<Scores>(dataJson.data)
+                scores = Json.decodeFromJsonElement(dataJson.data)
             }
             else {
                 throw Exception("Invalid data version")
@@ -31,12 +31,12 @@ object GameFileUtils {
 
     fun loadPlayerData(f : File) : PlayerData {
         val text = f.readText()
-        var playerData = PlayerData(0,0, f)
+        var playerData = PlayerData(file = f)
         if (text.isNotBlank()) {
             val dataJson = Json.decodeFromString<DataFile>(text)
             // TODO make a system that maps dataVersions to dataFixers
             if (dataJson.dataVersion == PlayerData.DATA_VERSION) {
-                playerData = Json.decodeFromJsonElement<PlayerData>(dataJson.data)
+                playerData = Json.decodeFromJsonElement(dataJson.data)
             }
             else {
                 throw Exception("Invalid data version")

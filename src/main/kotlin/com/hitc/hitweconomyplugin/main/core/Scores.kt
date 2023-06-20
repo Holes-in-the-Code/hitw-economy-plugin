@@ -13,7 +13,7 @@ import java.util.Calendar
 
 @Serializable
 data class Scores(
-    private val scores : MutableList<Score>,
+    private val scores : MutableList<Score> = ArrayList(),
     @Transient var file : File? = null,
     @Transient var date : Calendar? = null
 ) {
