@@ -5,13 +5,11 @@ import com.hitc.hitweconomyplugin.main.utils.GameFileUtils
 import com.hitc.hitweconomyplugin.main.utils.GeneralUtils
 import core.HPlayer
 import org.bukkit.entity.Player
-import java.io.File
-import java.util.Calendar
 
 class EPlayer(
-    hPlayer: HPlayer,
-    var dailyDataFile: Pair<File, Calendar>,
-    val dataFile: File
+    hPlayer : HPlayer,
+    var dailyScores : Scores,
+    var playerData : PlayerData
 ) : HPlayer(
     hPlayer.player,
     hPlayer.wallColor,
@@ -49,8 +47,8 @@ class EPlayer(
 
             val ePlayer = EPlayer(
                 hPlayer,
-                GameFileUtils.getDailyDataFile(p),
-                GameFileUtils.getDataFile(p)
+                GameFileUtils.initPlayerScores(p),
+                GameFileUtils.initPlayerData(p)
             )
             Main.ePlayers.add(ePlayer)
             return ePlayer
@@ -65,8 +63,8 @@ class EPlayer(
             val player = p.player
             val ePlayer = EPlayer(
                 p,
-                GameFileUtils.getDailyDataFile(player),
-                GameFileUtils.getDataFile(player)
+                GameFileUtils.initPlayerScores(player),
+                GameFileUtils.initPlayerData(player)
             )
             Main.ePlayers.add(ePlayer)
             return ePlayer
