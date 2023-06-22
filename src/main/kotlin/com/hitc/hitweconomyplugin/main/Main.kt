@@ -57,9 +57,10 @@ class Main: JavaPlugin(), Listener {
 
         CoroutineScope(Dispatchers.IO).launch {
             val credits = CreditsUtils.addCredits(gameType, score.score, ePlayer)
+            val creditPercent = "%.1f".format((credits.toFloat()/score.score.toFloat()*100f))
             ePlayer.dailyScores.addScore(score, ePlayer)
             withContext(Dispatchers.Default) {
-                player.player.sendMessage("§dYou earned §a$credits §dcredits!")
+                player.player.sendMessage("§dYou earned §a$credits §dcredits! (§a$creditPercent%§d)")
             }
         }
     }

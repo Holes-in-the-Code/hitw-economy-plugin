@@ -26,6 +26,7 @@ object GameFileUtils {
                 throw Exception("Invalid data version")
             }
         }
+        scores.file = f
         return scores
     }
 
@@ -42,6 +43,7 @@ object GameFileUtils {
                 throw Exception("Invalid data version")
             }
         }
+        playerData.file = f
         return playerData
     }
 
