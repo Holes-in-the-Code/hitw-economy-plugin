@@ -56,11 +56,13 @@ class Main: JavaPlugin(), Listener {
         val ePlayer = EPlayer.getFromPlayer(player)
 
         CoroutineScope(Dispatchers.IO).launch {
-            val credits = CreditsUtils.addCredits(gameType, score.score, ePlayer)
-            val creditPercent = "%.1f".format((credits.toFloat()/score.score.toFloat()*100f))
+            val scoresList = CreditsUtils.getScores(gameType, score.score, ePlayer)
+            val credits = CreditsUtils.addCredits(scoresList, ePlayer)
+            val gamesString = CreditsUtils.gamesPlayedStringAlgorithm1(scoresList)
+
             ePlayer.dailyScores.addScore(score, ePlayer)
             withContext(Dispatchers.Default) {
-                player.player.sendMessage("§dYou earned §a$credits §dcredits! (§a$creditPercent%§d)")
+                player.player.sendMessage("§dYou earned §a$credits §dcredits! ($gamesString§d)")
             }
         }
     }
