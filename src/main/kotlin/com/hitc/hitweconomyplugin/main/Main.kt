@@ -58,7 +58,7 @@ class Main: JavaPlugin(), Listener {
         CoroutineScope(Dispatchers.IO).launch {
             val scoresList = CreditsUtils.getScores(gameType, score.score, ePlayer)
             val credits = CreditsUtils.addCredits(scoresList, ePlayer)
-            val gamesString = CreditsUtils.gamesPlayedStringAlgorithm1(scoresList)
+            val gamesString = CreditsUtils.gamesPlayedStringAlgorithm3(scoresList)
 
             ePlayer.dailyScores.addScore(score, ePlayer)
             withContext(Dispatchers.Default) {
