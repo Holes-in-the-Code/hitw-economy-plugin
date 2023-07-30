@@ -11,11 +11,15 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.Json.Default.encodeToJsonElement
+import kotlinx.serialization.json.Json.Default.encodeToString
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.plugin.java.JavaPlugin
+import java.io.File
 import java.nio.file.Files
 import kotlin.io.path.Path
 
@@ -31,9 +35,9 @@ class Main: JavaPlugin(), Listener {
         val player = HPlayer.getHPlayer(event.player) ?: return
         val playerData = GameFileUtils.initPlayerData(event.player)
         val scores = GameFileUtils.initPlayerScores(event.player)
+        val monthlyData = GameFileUtils.initMonthlyData(event.player)
 
-
-        val ePlayer = EPlayer(player, scores, playerData)
+        val ePlayer = EPlayer(player, scores, playerData, monthlyData)
         ePlayers.add(ePlayer)
     }
 

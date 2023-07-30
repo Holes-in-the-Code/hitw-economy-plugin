@@ -69,4 +69,9 @@ object GeneralUtils {
         return date.get(Calendar.DAY_OF_YEAR) == currentDate.get(Calendar.DAY_OF_YEAR)
     }
 
+    fun checkMonth(month : Int) : Boolean {
+        val currentDate = Calendar.getInstance(TimeZone.getTimeZone("EST"))
+        return currentDate.get(Calendar.MONTH) == month
+    }
+
 }

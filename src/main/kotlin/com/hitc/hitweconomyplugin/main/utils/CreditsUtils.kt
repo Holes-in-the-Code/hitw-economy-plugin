@@ -21,6 +21,7 @@ object CreditsUtils {
         val credits = creditsAlgorithm3(scores)
         ePlayer.playerData.addCredits(credits)
         ePlayer.playerData.addCreditsEarned(credits)
+        ePlayer.monthlyData.addCreditsEarned(credits, ePlayer.player)
         return credits
     }
 
@@ -73,8 +74,8 @@ object CreditsUtils {
     private fun creditsAlgorithm3(scores: List<Score?>): Int {
         val score = scores.last()?.score ?: 0
         val games = scores.size
-        val multiplier = creditsAlgorithm3Multiplier(games)
-        return (score * multiplier).roundToInt()
+        val multiplier = (creditsAlgorithm3Multiplier(games)*100.0).roundToInt()
+        return (score * (multiplier/100.0)).roundToInt()
     }
 
     fun gamesPlayedStringAlgorithm3(scores : List<Score?>) : String {
@@ -88,7 +89,7 @@ object CreditsUtils {
         }
         val gameTypeString = scores[0]?.gameType?.text ?: ""
 
-        return "$color$games §a$gameTypeString Games Played, $percent%"
+        return "$color$games §a$gameTypeString Games Played, $color$percent%"
     }
 
 

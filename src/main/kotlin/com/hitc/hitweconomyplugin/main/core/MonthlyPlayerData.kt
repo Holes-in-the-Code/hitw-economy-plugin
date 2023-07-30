@@ -9,40 +9,32 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.encodeToJsonElement
 import org.bukkit.entity.Player
 import java.io.File
-import java.util.Calendar
 
 @Serializable
-data class Scores(
-    private val scores : MutableList<Score> = ArrayList(),
-    @Transient var file : File? = null,
-    @Transient var date : Calendar? = null
+data class MonthlyPlayerData(
+    private var creditsEarned: Int = 0,
+    var month : Int,
+    @Transient var file : File? = null
 ) {
-
-    fun getScores() : MutableList<Score> {
-        return this.scores
+    fun addCreditsEarned(credits : Int, player : Player) {
+        this.creditsEarned += credits
+        save(player, credits)
     }
 
-    fun addScore(score : Score, ePlayer: EPlayer) {
-        this.scores.add(score)
-        save(ePlayer.player)
-    }
-
-    private fun save(player: Player) {
-        val date = this.date ?: throw Error("Cannot find date associated with data.")
+    fun save(player: Player, credits: Int) {
         val file = this.file ?: throw Error("Cannot find file to write to.")
 
+        if (!GeneralUtils.checkMonth(month)) {
+            val monthlyData = GameFileUtils.initMonthlyData(player)
 
-        if (!GeneralUtils.checkDate(date)) {
-            val playerData = GameFileUtils.initPlayerScores(player)
-            this.date = playerData.date
-            this.file = playerData.file
+            creditsEarned = monthlyData.creditsEarned + credits
+            month = monthlyData.month
         }
 
         val scoresJson = Json.encodeToJsonElement(this)
         val dataFile = DataFile(DATA_VERSION, scoresJson)
         file.writeText(Json.encodeToString(dataFile))
     }
-
     companion object {
         const val DATA_VERSION = 1
     }

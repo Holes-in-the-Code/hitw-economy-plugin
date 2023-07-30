@@ -38,7 +38,7 @@ class PlayerData(
         return this.creditsEarned
     }
 
-    private fun save() {
+    fun save() {
         val file = this.file ?: throw Error("Cannot find file to write to.")
 
         val playerDataJson = Json.encodeToJsonElement(this)
@@ -48,7 +48,7 @@ class PlayerData(
     }
 
     companion object {
-        const val DATA_VERSION = 1
+        const val DATA_VERSION = 2
     }
 
 }

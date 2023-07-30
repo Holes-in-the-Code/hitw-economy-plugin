@@ -9,7 +9,8 @@ import org.bukkit.entity.Player
 class EPlayer(
     hPlayer : HPlayer,
     var dailyScores : Scores,
-    var playerData : PlayerData
+    var playerData : PlayerData,
+    var monthlyData : MonthlyPlayerData
 ) : HPlayer(
     hPlayer.player,
     hPlayer.wallColor,
@@ -48,7 +49,8 @@ class EPlayer(
             val ePlayer = EPlayer(
                 hPlayer,
                 GameFileUtils.initPlayerScores(p),
-                GameFileUtils.initPlayerData(p)
+                GameFileUtils.initPlayerData(p),
+                GameFileUtils.initMonthlyData(p)
             )
             Main.ePlayers.add(ePlayer)
             return ePlayer
@@ -64,7 +66,8 @@ class EPlayer(
             val ePlayer = EPlayer(
                 p,
                 GameFileUtils.initPlayerScores(player),
-                GameFileUtils.initPlayerData(player)
+                GameFileUtils.initPlayerData(player),
+                GameFileUtils.initMonthlyData(player)
             )
             Main.ePlayers.add(ePlayer)
             return ePlayer
