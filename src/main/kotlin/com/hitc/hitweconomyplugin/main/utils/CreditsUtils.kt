@@ -3,6 +3,9 @@ package com.hitc.hitweconomyplugin.main.utils
 import com.hitc.hitweconomyplugin.main.core.EPlayer
 import com.hitc.hitweconomyplugin.main.core.GameType
 import com.hitc.hitweconomyplugin.main.core.Score
+import com.hitc.hitweconomyplugin.main.core.Scores
+import java.io.File
+import java.util.*
 import kotlin.math.pow
 import kotlin.math.roundToInt
 
@@ -92,5 +95,32 @@ object CreditsUtils {
         return "$color$games §a$gameTypeString Games Played, $color$percent%"
     }
 
+    fun recalculateCredits(scores : Scores) : Int {
+        val scoreList = scores.getScores()
+        var total = 0
+        for (index in scoreList.lastIndex downTo 0) {
+            total += creditsAlgorithm3(scoreList)
+            scoreList.removeAt(index)
+        }
+        for (score in scoreList) {
 
+        }
+        return total
+    }
+
+    fun getCreditsByDate(day : Int, month : Int, uuid : UUID) : Int {
+        val stringUUID = uuid.toString()
+        val f = File("./plugins/HitW/playerdata/$day-$month/$stringUUID.json")
+        if (!f.exists()) return 0
+        val scores = GameFileUtils.loadScores(f)
+        return recalculateCredits(scores)
+    }
+
+    fun getCreditsByMonth(month : Int, uuid : UUID) : Int {
+        var total = 0
+        for (i in 1..31) {
+            total += getCreditsByDate(i, month, uuid)
+        }
+        return total
+    }
 }
